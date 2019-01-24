@@ -1,7 +1,7 @@
 # angular-exercise-httpClient
 跟着官网的代码做练习
 
-####定义接口
+##### 定义接口
 ```
 export interface Config {
   heroesUrl: string;
@@ -10,7 +10,7 @@ export interface Config {
 ```
 
 
-#### 异步获取数据的两个步骤
+##### 异步获取数据的两个步骤
 
 
 ```
