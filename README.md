@@ -29,3 +29,16 @@ getHeroes() {
       .subscribe(next: heroes => this.heroes = heroes)
   }
 ```
+
+
+#### 点击编辑的套路
+
+```
+//heroes文件夹中
+    <a (click)="edit(hero)">
+      <span class="badge">{{hero.id || -1}}</span>
+      <span *ngIf="hero!==edtiHero">{{hero.name}}</span>
+      <input *ngIf="hero === editHero" [(ngModel)]="hero.name"
+      (blur)="update()" (keyup.enter)="update()">
+    </a>
+```
