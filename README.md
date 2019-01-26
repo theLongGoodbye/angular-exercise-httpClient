@@ -132,7 +132,7 @@ upload(file: File) {
   }
 ```
 
-//The `HttpClient.request` API produces a raw event stream
+//The `HttpClient.request` API produces a raw event stream <br/>
 //根据返回的不同的 event 类型，返回对应的响应内容
 ```
 private getEventMessage(event: HttpEvent, file) {
@@ -155,12 +155,12 @@ private getEventMessage(event: HttpEvent, file) {
   }
 ```
 #### 错误捕获函数的两种写法
-//注意这里用的 handleError 和上面有几点不一样
-//1.放进 catchError 的时候带了参数
-//2.handleError 在定义的时候接收的参数不一样
-//3.调用的时候一个要传参，一个不要
-//4.一个返回的是 throwError（error），一个返回的是 of(data)，data 是 next 回调函数里面接收的数据
-//5. 可以直接采用第一种，把 throwError 换成 of
+//注意这里用的 handleError 和上面有几点不一样 <br/>
+//1.放进 catchError 的时候带了参数 <br/>
+//2.handleError 在定义的时候接收的参数不一样 <br/>
+//3.调用的时候一个要传参，一个不要 <br/>
+//4.一个返回的是 throwError（error），一个返回的是 of(data)，data 是 next 回调函数里面接收的数据 <br/>
+//5. 可以直接采用第一种，把 throwError 换成 of <br/>
 ```
 private handleError(file: File) {
     const userMessage = `${file.name} upload failed.`;
