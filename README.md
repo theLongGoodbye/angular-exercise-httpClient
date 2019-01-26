@@ -79,3 +79,24 @@ getConfig() {
   }
 ```
 // 可以不自己定义 handleError 以及不使用 catchError，直接 log subcribe 里的 error，也可以看到错误信息
+
+
+#### 读取文件内容
+
+```
+`getTextFile(filename: string) {
+    return this.http.get(filename, {responseType: 'text'})
+      .pipe(
+        tap(
+          data => log('service-data',data),
+          error => log('service-error', error)
+        )
+      )
+  }
+  
+  
+  download() {
+    this.downService.getTextFile('assets/textfile.txt')
+      .subscribe(results => this.contents = results)
+  }
+```
