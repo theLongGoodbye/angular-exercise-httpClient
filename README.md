@@ -161,6 +161,7 @@ private getEventMessage(event: HttpEvent, file) {
 //3.调用的时候一个要传参，一个不要 <br/>
 //4.一个返回的是 throwError（error），一个返回的是 of(data)，data 是 next 回调函数里面接收的数据 <br/>
 //5. 可以直接采用第一种，把 throwError 换成 of <br/>
+* //6.对比发现，catchError 里面接收的一定是一个 (error: HttpErrorResponse) {} 形式的函数，其实两种写法都保证了这一点 * <br/>
 ```
 private handleError(file: File) {
     const userMessage = `${file.name} upload failed.`;
