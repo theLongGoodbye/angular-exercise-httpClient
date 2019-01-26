@@ -160,6 +160,7 @@ private getEventMessage(event: HttpEvent, file) {
 //2.handleError 在定义的时候接收的参数不一样
 //3.调用的时候一个要传参，一个不要
 //4.一个返回的是 throwError（error），一个返回的是 of(data)，data 是 next 回调函数里面接收的数据
+//5. 可以直接采用第一种，把 throwError 换成 of
 ```
 private handleError(file: File) {
     const userMessage = `${file.name} upload failed.`;
