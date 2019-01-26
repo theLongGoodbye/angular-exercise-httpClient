@@ -179,3 +179,5 @@ private handleError(file: File) {
     };
   }
 ```
+
+#### 根据输入框返回搜索响应内容以及 Subject 对象的使用套路 - packge-search 文件夹
