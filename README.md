@@ -78,3 +78,4 @@ getConfig() {
       )
   }
 ```
+// 可以不自己定义 handleError 以及不使用 catchError，直接 log subcribe 里的 error，也可以看到错误信息
