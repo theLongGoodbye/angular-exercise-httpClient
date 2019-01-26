@@ -84,7 +84,7 @@ getConfig() {
 #### 读取文件内容
 
 ```
-`getTextFile(filename: string) {
+getTextFile(filename: string) {
     return this.http.get(filename, {responseType: 'text'})
       .pipe(
         tap(
@@ -94,9 +94,86 @@ getConfig() {
       )
   }
   
-  
   download() {
     this.downService.getTextFile('assets/textfile.txt')
       .subscribe(results => this.contents = results)
+  }
+```
+
+#### 上传文件的做法（uploader 文件夹）
+//定义上传函数
+
+```
+upload(file: File) {
+    if (!file) {return}
+    // COULD HAVE WRITTEN:
+    // return this.http.post('/upload/file', file, {
+    //   reportProgress: true,
+    //   observe: 'events'
+    // }).pipe(
+
+    //这段英文注解很重要
+    // Create the request object that POSTs the file to an upload endpoint.
+    // The `reportProgress` option tells HttpClient to listen and return
+    // XHR progress events.
+    const req = new HttpRequest('POST', 'assets/upload', file, {
+      reportProgress: true
+    })
+
+    // The `HttpClient.request` API produces a raw event stream
+    // which includes start (sent), progress, and response events.
+    return this.http.request(req)
+      .pipe(
+        map(event => this.getEventMessage(event, file)),
+        tap(message => log('message', message)),
+        last(),
+        catchError(this.handleError(file))
+      )
+  }
+```
+
+//The `HttpClient.request` API produces a raw event stream
+//根据返回的不同的 event 类型，返回对应的响应内容
+```
+private getEventMessage(event: HttpEvent, file) {
+    log('执行')
+    switch (event.type) {
+      case HttpEventType.Sent:
+        return `Uploading file '${file.name}' of size ${file.size}`
+
+      case HttpEventType.UploadProgress:
+        // Compute and show the % done:
+        const percentDone = Math.round(100 * event.loaded / event.total)
+        return `File "${file.name}" is ${percentDone}% uploaded`
+
+      case HttpEventType.Response:
+        return `File "${file.name}" was completely uploaded!`;
+
+      default:
+        return `File "${file.name}" surprising upload event: ${event.type}.`;
+    }
+  }
+```
+#### 错误捕获函数的两种写法
+//注意这里用的 handleError 和上面有几点不一样
+//1.放进 catchError 的时候带了参数
+//2.handleError 在定义的时候接收的参数不一样
+//3.调用的时候一个要传参，一个不要
+//4.一个返回的是 throwError（error），一个返回的是 of(data)，data 是 next 回调函数里面接收的数据
+```
+private handleError(file: File) {
+    const userMessage = `${file.name} upload failed.`;
+
+    return (error: HttpErrorResponse) => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      const message = (error.error instanceof Error) ?
+        error.error.message :
+        `server returned code ${error.status} with body "${error.error}"`;
+
+      // Let app keep running but indicate failure.
+      return of(userMessage);
+    };
   }
 ```
