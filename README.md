@@ -1,6 +1,9 @@
 # angular-exercise-httpClient
 跟着官网的代码做练习
 
+效果如下：<br>
+ https://thelonggoodbye.github.io/angular-exercise-httpClient/
+
 #### 定义接口
 ```
 export interface Config {
